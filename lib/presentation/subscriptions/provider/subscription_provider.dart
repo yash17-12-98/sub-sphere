@@ -85,17 +85,13 @@ class SubscriptionProvider extends BaseProvider {
     return list;
   }
 
-  List<Subscription> filterListCategoryWise() {
-    final selectedCategory = categories[categoriesSelectedIndex];
-
-    if (selectedCategory == AppStrings.allSabs) {
-      return subscriptions;
+  Future<void> initializeDefaultData() async {
+    if (subscriptionBox.isEmpty) {
+      for (var subData in defaultSubscriptions) {
+        await subscriptionBox.add(subData);
+      }
+      notifyListeners();
     }
-
-    return subscriptions.where((subscription) {
-      return subscription.category
-          .any((category) => category.trim() == selectedCategory.trim());
-    }).toList();
   }
 
   Color assignRandomColor() {
@@ -114,13 +110,17 @@ class SubscriptionProvider extends BaseProvider {
     return colorPalette[colorIndex];
   }
 
-  Future<void> initializeDefaultData() async {
-    if (subscriptionBox.isEmpty) {
-      for (var subData in defaultSubscriptions) {
-        await subscriptionBox.add(subData);
-      }
-      notifyListeners();
+  List<Subscription> filterListCategoryWise() {
+    final selectedCategory = categories[categoriesSelectedIndex];
+
+    if (selectedCategory == AppStrings.allSabs) {
+      return subscriptions;
     }
+
+    return subscriptions.where((subscription) {
+      return subscription.category
+          .any((category) => category.trim() == selectedCategory.trim());
+    }).toList();
   }
 
   Future<void> saveCategoryForSelectedSubscriptions({
@@ -141,33 +141,8 @@ class SubscriptionProvider extends BaseProvider {
 
       notifyListeners();
     } catch (e) {
-      print('Error saving categories: $e');
+      debugPrint('Error saving categories: $e');
       throw Exception('Failed to save categories for subscriptions');
     }
   }
-}
-
-class SelectSubscriptionCategoryProvider extends BaseProvider {
-  final Set<Subscription> selectedSubscriptionsForCategory = {};
-
-  bool isSubscriptionSelectedForCategory(Subscription subscription) {
-    return selectedSubscriptionsForCategory.contains(subscription);
-  }
-
-  void toggleSubscriptionSelection(Subscription subscription) {
-    if (selectedSubscriptionsForCategory.contains(subscription)) {
-      selectedSubscriptionsForCategory.remove(subscription);
-    } else {
-      selectedSubscriptionsForCategory.add(subscription);
-    }
-    notifyListeners();
-  }
-
-  void clearSelectedSubscriptions() {
-    selectedSubscriptionsForCategory.clear();
-    notifyListeners();
-  }
-
-  List<Subscription> get selectedSubscriptions =>
-      selectedSubscriptionsForCategory.toList();
 }

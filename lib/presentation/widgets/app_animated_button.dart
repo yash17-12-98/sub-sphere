@@ -3,10 +3,11 @@ import '../resources/resources.dart';
 
 class AppAnimatedButton extends StatefulWidget {
   final String text;
+  final Color? color;
   final VoidCallback onPressed;
 
   const AppAnimatedButton(
-      {super.key, required this.text, required this.onPressed});
+      {super.key, required this.text, required this.onPressed, this.color});
 
   @override
   State<AppAnimatedButton> createState() => _AppAnimatedButtonState();
@@ -37,7 +38,7 @@ class _AppAnimatedButtonState extends State<AppAnimatedButton> {
           transform: Matrix4.identity()..scale(isPressed ? 0.8 : 1.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: widget.color ?? Colors.blue,
               borderRadius: BorderRadius.circular(AppSize.s12),
               // borderRadius: BorderRadius.circular(20),
             ),

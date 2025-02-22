@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sub_sphere/app/extension.dart';
+import 'package:sub_sphere/presentation/subscriptions/provider/select_subscription_category_provider.dart';
 import '../provider/subscription_provider.dart';
 import '../../resources/resources.dart';
 import '../../widgets/widgets.dart';
 import 'components.dart';
 
-class AddCategoryModalBottomView extends StatelessWidget {
-  AddCategoryModalBottomView({super.key});
+class AddCategoryModalBottomView extends StatefulWidget {
+  const AddCategoryModalBottomView({super.key});
 
+  @override
+  State<AddCategoryModalBottomView> createState() =>
+      _AddCategoryModalBottomViewState();
+}
+
+class _AddCategoryModalBottomViewState
+    extends State<AddCategoryModalBottomView> {
   final textController = TextEditingController();
+
+  final ValueNotifier<bool> isButtonEnabled = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    super.initState();
+    textController.addListener(checkValidation);
+  }
+
+  void checkValidation() {
+    final selectSubscriptionProvider =
+        context.read<SelectSubscriptionCategoryProvider>();
+    isButtonEnabled.value = textController.text.trim().isNotEmpty &&
+        selectSubscriptionProvider.selectedSubscriptions.isNotEmpty;
+  }
+
+  @override
+  void dispose() {
+    textController.removeListener(checkValidation);
+    textController.dispose();
+    isButtonEnabled.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +122,11 @@ class AddCategoryModalBottomView extends StatelessWidget {
                                     value: provider
                                         .isSubscriptionSelectedForCategory(
                                             subscription),
-                                    onChanged: (value) =>
-                                        provider.toggleSubscriptionSelection(
-                                            subscription));
+                                    onChanged: (value) {
+                                      provider.toggleSubscriptionSelection(
+                                          subscription);
+                                      checkValidation();
+                                    });
                               },
                             ),
                           );
@@ -114,19 +147,25 @@ class AddCategoryModalBottomView extends StatelessWidget {
           Consumer2<SubscriptionProvider, SelectSubscriptionCategoryProvider>(
             builder: (BuildContext context, subscriptionProvider,
                 selectSubscriptionCategoryProvider, Widget? child) {
-              return AppAnimatedButton(
-                text: AppStrings.save,
-                onPressed: () async {
-                  final navigator = Navigator.of(context);
+              return ValueListenableBuilder(
+                valueListenable: isButtonEnabled,
+                builder: (context, enabled, child) {
+                  return AppAnimatedButton(
+                    text: AppStrings.save,
+                    color: enabled ? ColorManager.blue : ColorManager.black,
+                    onPressed: isButtonEnabled.value ? () async {
+                      final navigator = Navigator.of(context);
 
-                  await subscriptionProvider
-                      .saveCategoryForSelectedSubscriptions(
-                          categoryName: textController.text,
-                          selectedSubscriptions:
-                              selectSubscriptionCategoryProvider
-                                  .selectedSubscriptions);
+                      await subscriptionProvider
+                          .saveCategoryForSelectedSubscriptions(
+                              categoryName: textController.text,
+                              selectedSubscriptions:
+                                  selectSubscriptionCategoryProvider
+                                      .selectedSubscriptions);
 
-                  navigator.pop();
+                      navigator.pop();
+                    } : (){},
+                  );
                 },
               );
             },
