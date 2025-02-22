@@ -3,8 +3,10 @@ import '../resources/resources.dart';
 
 class AppAnimatedButton extends StatefulWidget {
   final String text;
+  final VoidCallback onPressed;
 
-  const AppAnimatedButton({super.key, required this.text});
+  const AppAnimatedButton(
+      {super.key, required this.text, required this.onPressed});
 
   @override
   State<AppAnimatedButton> createState() => _AppAnimatedButtonState();
@@ -24,6 +26,7 @@ class _AppAnimatedButtonState extends State<AppAnimatedButton> {
         },
         onTapUp: (_) {
           setState(() => isPressed = false);
+          widget.onPressed();
         },
         onTapCancel: () {
           setState(() => isPressed = false);

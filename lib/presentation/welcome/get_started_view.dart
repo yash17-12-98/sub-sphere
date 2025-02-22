@@ -46,7 +46,12 @@ class _GetStartedViewState extends State<GetStartedView> {
                     ),
                     Spacer(),
                     Flexible(
-                      child: AppAnimatedButton(text: AppStrings.getStarted),
+                      child: AppAnimatedButton(
+                        text: AppStrings.getStarted,
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.mySubRoute);
+                        },
+                      ),
                     ),
                   ],
                 ),

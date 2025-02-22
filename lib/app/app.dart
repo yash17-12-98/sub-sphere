@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sub_sphere/presentation/providers/providers.dart';
 import '../presentation/resources/resources.dart';
 
 class MyApp extends StatefulWidget {
@@ -11,10 +13,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.getStartedRoute,
-        theme: getApplicationTheme());
+    return MultiProvider(
+      providers: providerList,
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: RouteGenerator.getRoute,
+          initialRoute: Routes.getStartedRoute,
+          theme: getApplicationTheme()),
+    );
   }
 }
