@@ -21,31 +21,31 @@ class SubscriptionProvider extends BaseProvider {
         price: 12,
         billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.figmaImage,
-        category: AppStrings.design),
+        category: [AppStrings.design]),
     Subscription(
         name: AppStrings.hboMax,
         price: 12,
         billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.hboImage,
-        category: AppStrings.entertainment),
+        category: [AppStrings.entertainment]),
     Subscription(
         name: AppStrings.spotify,
         price: 12,
         billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.spotifyImage,
-        category: AppStrings.entertainment),
+        category: [AppStrings.entertainment]),
     Subscription(
         name: AppStrings.playStationPlus,
         price: 67.57,
         billingCycle: BillingCycle.year.name,
         iconPath: ImageAssets.playStationImage,
-        category: AppStrings.entertainment),
+        category: [AppStrings.entertainment]),
     Subscription(
         name: AppStrings.youtube,
         price: 8.97,
         billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.youtubeImage,
-        category: AppStrings.entertainment),
+        category: [AppStrings.entertainment]),
   ];
 
   static final List<Color> colorPalette = [
@@ -60,9 +60,12 @@ class SubscriptionProvider extends BaseProvider {
   ];
 
   final Random random = Random();
+
   List<int> shuffledColorIndices = [];
 
   int categoriesSelectedIndex = 0;
+
+  List<Subscription> get subscriptions => subscriptionBox.values.toList();
 
   set categorySelected(int index) {
     categoriesSelectedIndex = index;
@@ -70,27 +73,30 @@ class SubscriptionProvider extends BaseProvider {
   }
 
   List<String> get categories {
-    final result = subscriptions
-        .map((subscription) => subscription.category)
-        .toSet() // Convert to Set to remove duplicates
-        .toList(); // Convert back to List
+    final list = [AppStrings.allSabs]; // Start with 'All'
 
-    result.insert(0, AppStrings.allSabs);
+    final categorySet = subscriptions
+        .expand((subscription) => subscription.category)
+        .where((category) => category.isNotEmpty)
+        .toSet();
 
-    return result;
+    list.addAll(categorySet);
+
+    return list;
   }
 
   List<Subscription> filterListCategoryWise() {
     final selectedCategory = categories[categoriesSelectedIndex];
 
-    return selectedCategory == AppStrings.allSabs
-        ? subscriptions
-        : subscriptions
-            .where((sub) => sub.category == selectedCategory)
-            .toList();
-  }
+    if (selectedCategory == AppStrings.allSabs) {
+      return subscriptions;
+    }
 
-  List<Subscription> get subscriptions => subscriptionBox.values.toList();
+    return subscriptions.where((subscription) {
+      return subscription.category
+          .any((category) => category.trim() == selectedCategory.trim());
+    }).toList();
+  }
 
   Color assignRandomColor() {
     if (shuffledColorIndices.isEmpty) {
@@ -116,4 +122,52 @@ class SubscriptionProvider extends BaseProvider {
       notifyListeners();
     }
   }
+
+  Future<void> saveCategoryForSelectedSubscriptions({
+    required String categoryName,
+    required List<Subscription> selectedSubscriptions,
+  }) async {
+    try {
+      for (var subscription in selectedSubscriptions) {
+        final index = subscriptions.indexOf(subscription);
+        if (index != -1) {
+          if (!subscription.category.contains(categoryName)) {
+            subscription.category.add(categoryName);
+
+            await subscriptionBox.putAt(index, subscription);
+          }
+        }
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('Error saving categories: $e');
+      throw Exception('Failed to save categories for subscriptions');
+    }
+  }
+}
+
+class SelectSubscriptionCategoryProvider extends BaseProvider {
+  final Set<Subscription> selectedSubscriptionsForCategory = {};
+
+  bool isSubscriptionSelectedForCategory(Subscription subscription) {
+    return selectedSubscriptionsForCategory.contains(subscription);
+  }
+
+  void toggleSubscriptionSelection(Subscription subscription) {
+    if (selectedSubscriptionsForCategory.contains(subscription)) {
+      selectedSubscriptionsForCategory.remove(subscription);
+    } else {
+      selectedSubscriptionsForCategory.add(subscription);
+    }
+    notifyListeners();
+  }
+
+  void clearSelectedSubscriptions() {
+    selectedSubscriptionsForCategory.clear();
+    notifyListeners();
+  }
+
+  List<Subscription> get selectedSubscriptions =>
+      selectedSubscriptionsForCategory.toList();
 }

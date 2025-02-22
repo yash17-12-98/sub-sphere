@@ -21,7 +21,7 @@ class SubscriptionAdapter extends TypeAdapter<Subscription> {
       price: fields[1] as dynamic,
       billingCycle: fields[2] as String,
       iconPath: fields[3] as String,
-      category: fields[4] as String,
+      category: (fields[4] as List).cast<String>(),
     );
   }
 

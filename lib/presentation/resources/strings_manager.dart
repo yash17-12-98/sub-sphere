@@ -21,8 +21,8 @@ class AppStrings {
   static const selectSubscriptions = "Select subscriptions";
 
   //Category
-  static const design = "design";
-  static const entertainment = "entertainment";
+  static const design = "Design";
+  static const entertainment = "Entertainment";
 
   //Subscriptions
   static const figma = "Figma";

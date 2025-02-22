@@ -70,10 +70,10 @@ ThemeData getApplicationTheme() {
       inputDecorationTheme: InputDecorationTheme(
         contentPadding: const EdgeInsets.all(AppPadding.p8),
         // hint style
-        hintStyle: getRegularStyle(color: ColorManager.grey1),
+        hintStyle: getRegularStyle(color: ColorManager.white.withValues(alpha: 0.2)),
 
         // label style
-        labelStyle: getMediumStyle(color: ColorManager.darkGrey),
+        labelStyle: getMediumStyle(color: ColorManager.white),
         // error style
         errorStyle: getRegularStyle(color: ColorManager.error),
 

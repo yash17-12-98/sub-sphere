@@ -7,4 +7,8 @@ List<SingleChildWidget> providerList = [
   ChangeNotifierProvider<SubscriptionProvider>(
       create: (context) =>
           SubscriptionProvider(subscriptionBox: getItInstance.get())),
+
+  ChangeNotifierProvider<SelectSubscriptionCategoryProvider>(
+      create: (context) =>
+          SelectSubscriptionCategoryProvider()),
 ];

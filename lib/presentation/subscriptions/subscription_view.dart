@@ -85,9 +85,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                         ),
                         child: const Icon(Icons.add, color: Colors.white),
                       ),
-                      onPressed: () {
-                        showAddCategorySheet(context);
-                      },
+                      onPressed: () => showAddCategorySheet(context),
                     ),
                   ],
                 );
@@ -127,13 +125,17 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
     );
   }
 
-  void showAddCategorySheet(BuildContext context) {
-    showModalBottomSheet(
+  Future<void> showAddCategorySheet(BuildContext context) async {
+    final value = context.read<SelectSubscriptionCategoryProvider>();
+
+    await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddCategoryModalBottomView(),
     );
+
+    value.clearSelectedSubscriptions();
   }
 
   Widget viewIconButton(IconData? icon, VoidCallback onPressed) {

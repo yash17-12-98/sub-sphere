@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sub_sphere/app/extension.dart';
-import 'package:sub_sphere/presentation/subscriptions/provider/subscription_provider.dart';
-
+import '../provider/subscription_provider.dart';
 import '../../resources/resources.dart';
 import '../../widgets/widgets.dart';
+import 'components.dart';
 
 class AddCategoryModalBottomView extends StatelessWidget {
-  const AddCategoryModalBottomView({super.key});
+  AddCategoryModalBottomView({super.key});
+
+  final textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,28 +48,14 @@ class AddCategoryModalBottomView extends StatelessWidget {
                       color: ColorManager.white, fontSize: FontSize.s15),
                 ),
                 SizedBox(height: 8),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blue),
-                    ),
-                    contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  ),
-                  style: TextStyle(color: Colors.white),
-                ),
+                AppTextField(controller: textController),
                 SizedBox(height: AppSize.s20),
                 Text(
                   AppStrings.selectSubscriptions,
                   style: getMediumStyle(
                       color: ColorManager.white, fontSize: FontSize.s20),
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: AppSize.s15),
                 Expanded(
                   child: Consumer<SubscriptionProvider>(
                     builder: (BuildContext context, provider, Widget? child) {
@@ -95,13 +83,18 @@ class AddCategoryModalBottomView extends StatelessWidget {
                                   color: ColorManager.white,
                                   fontSize: FontSize.s16),
                             ),
-                            trailing: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.grey[700]!),
-                              ),
+                            trailing:
+                                Consumer<SelectSubscriptionCategoryProvider>(
+                              builder: (BuildContext context, provider,
+                                  Widget? child) {
+                                return SelectCheckBox(
+                                    value: provider
+                                        .isSubscriptionSelectedForCategory(
+                                            subscription),
+                                    onChanged: (value) =>
+                                        provider.toggleSubscriptionSelection(
+                                            subscription));
+                              },
                             ),
                           );
                         },
@@ -118,10 +111,24 @@ class AddCategoryModalBottomView extends StatelessWidget {
               ],
             ),
           ),
-          AppAnimatedButton(
-            text: AppStrings.save,
-            onPressed: () {
-              Navigator.pop(context);
+          Consumer2<SubscriptionProvider, SelectSubscriptionCategoryProvider>(
+            builder: (BuildContext context, subscriptionProvider,
+                selectSubscriptionCategoryProvider, Widget? child) {
+              return AppAnimatedButton(
+                text: AppStrings.save,
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+
+                  await subscriptionProvider
+                      .saveCategoryForSelectedSubscriptions(
+                          categoryName: textController.text,
+                          selectedSubscriptions:
+                              selectSubscriptionCategoryProvider
+                                  .selectedSubscriptions);
+
+                  navigator.pop();
+                },
+              );
             },
           ),
           SizedBox(height: kBottomNavigationBarHeight),

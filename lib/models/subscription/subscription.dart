@@ -17,7 +17,7 @@ class Subscription extends HiveObject {
   final String iconPath;
 
   @HiveField(4)
-  final String category;
+  final List<String> category;
 
   Subscription({
     required this.name,
