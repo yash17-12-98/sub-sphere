@@ -23,25 +23,28 @@ class _AppAnimatedButtonState extends State<AppAnimatedButton> {
       child: GestureDetector(
         onTapDown: (_) {
           setState(() => isPressed = true);
+          widget.onPressed();
         },
         onTapUp: (_) {
           setState(() => isPressed = false);
-          widget.onPressed();
         },
         onTapCancel: () {
           setState(() => isPressed = false);
         },
-        child: Transform.scale(
-          scale: isPressed ? 0.9 : 1.0,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          transformAlignment: Alignment.center,
+          transform: Matrix4.identity()..scale(isPressed ? 0.8 : 1.0),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.blue,
               borderRadius: BorderRadius.circular(AppSize.s12),
+              // borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
               child: Text(
                 widget.text,
-                style: getRegularStyle(
+                style: getMediumStyle(
                     color: ColorManager.white, fontSize: FontSize.s18),
               ),
             ),

@@ -11,6 +11,7 @@ ThemeData getApplicationTheme() {
       primaryColorLight: ColorManager.blackOpacity70,
       primaryColorDark: ColorManager.black,
       disabledColor: ColorManager.grey1,
+      scaffoldBackgroundColor: ColorManager.black,
       // ripple color
       splashColor: ColorManager.blackOpacity70,
       // will be used in case of disabled button
