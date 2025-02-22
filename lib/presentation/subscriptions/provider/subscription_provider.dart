@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:sub_sphere/app/enums.dart';
 import 'package:sub_sphere/models/subscription/subscription.dart';
 import 'package:sub_sphere/presentation/base/base.dart';
 
@@ -16,35 +17,35 @@ class SubscriptionProvider extends BaseProvider {
 
   static final List<Subscription> defaultSubscriptions = [
     Subscription(
-        name: "Figma",
-        price: 12.0,
-        billingCycle: 'month',
+        name: AppStrings.figma,
+        price: 12,
+        billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.figmaImage,
-        category: 'Design'),
+        category: AppStrings.design),
     Subscription(
-        name: "HBO Max",
-        price: 12.0,
-        billingCycle: 'month',
+        name: AppStrings.hboMax,
+        price: 12,
+        billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.hboImage,
-        category: 'Entertainment'),
+        category: AppStrings.entertainment),
     Subscription(
-        name: "Spotify",
-        price: 12.0,
-        billingCycle: 'month',
+        name: AppStrings.spotify,
+        price: 12,
+        billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.spotifyImage,
-        category: 'Entertainment'),
+        category: AppStrings.entertainment),
     Subscription(
-        name: "PlayStation Plus",
+        name: AppStrings.playStationPlus,
         price: 67.57,
-        billingCycle: 'month',
+        billingCycle: BillingCycle.year.name,
         iconPath: ImageAssets.playStationImage,
-        category: 'Entertainment'),
+        category: AppStrings.entertainment),
     Subscription(
-        name: "YouTube",
+        name: AppStrings.youtube,
         price: 8.97,
-        billingCycle: 'month',
+        billingCycle: BillingCycle.month.name,
         iconPath: ImageAssets.youtubeImage,
-        category: 'Entertainment'),
+        category: AppStrings.entertainment),
   ];
 
   static final List<Color> colorPalette = [
@@ -74,7 +75,7 @@ class SubscriptionProvider extends BaseProvider {
         .toSet() // Convert to Set to remove duplicates
         .toList(); // Convert back to List
 
-    result.insert(0, AppStrings.all);
+    result.insert(0, AppStrings.allSabs);
 
     return result;
   }
@@ -82,7 +83,7 @@ class SubscriptionProvider extends BaseProvider {
   List<Subscription> filterListCategoryWise() {
     final selectedCategory = categories[categoriesSelectedIndex];
 
-    return selectedCategory == AppStrings.all
+    return selectedCategory == AppStrings.allSabs
         ? subscriptions
         : subscriptions
             .where((sub) => sub.category == selectedCategory)

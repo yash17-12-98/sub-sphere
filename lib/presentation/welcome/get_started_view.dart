@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../resources/resources.dart';
 import '../widgets/widgets.dart';
-import 'components/app_icon_carousel_view.dart';
+import 'components/components.dart';
 
 class GetStartedView extends StatefulWidget {
   const GetStartedView({super.key});
@@ -25,7 +25,7 @@ class _GetStartedViewState extends State<GetStartedView> {
           child: Column(
             children: [
               SizedBox(height: screenHeight * 0.1),
-              AppIconCarouselView(),
+              RoundIconCarouselView(),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,

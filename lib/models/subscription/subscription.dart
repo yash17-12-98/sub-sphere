@@ -8,7 +8,7 @@ class Subscription extends HiveObject {
   final String name;
 
   @HiveField(1)
-  final double price;
+  final dynamic price;
 
   @HiveField(2)
   final String billingCycle;

@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:sub_sphere/app/extension.dart';
-import 'package:sub_sphere/presentation/resources/resources.dart';
 
-class AppPillShapeButton extends StatefulWidget {
+import '../../resources/resources.dart';
+
+class PillShapeButton extends StatefulWidget {
   final bool selected;
   final String title;
   final VoidCallback onPressed;
 
-  const AppPillShapeButton(
+  const PillShapeButton(
       {super.key,
       this.selected = false,
       required this.title,
       required this.onPressed});
 
   @override
-  State<AppPillShapeButton> createState() => _AppPillShapeButtonState();
+  State<PillShapeButton> createState() => _PillShapeButtonState();
 }
 
-class _AppPillShapeButtonState extends State<AppPillShapeButton> {
+class _PillShapeButtonState extends State<PillShapeButton> {
   bool isPressed = false;
 
   @override

@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../resources/resources.dart';
 
-class AppIconCarouselView extends StatefulWidget {
-  const AppIconCarouselView({super.key});
+class RoundIconCarouselView extends StatefulWidget {
+  const RoundIconCarouselView({super.key});
 
   @override
-  State<AppIconCarouselView> createState() => _AppIconCarouselViewState();
+  State<RoundIconCarouselView> createState() => _RoundIconCarouselViewState();
 }
 
-class _AppIconCarouselViewState extends State<AppIconCarouselView> {
+class _RoundIconCarouselViewState extends State<RoundIconCarouselView> {
   final List<CarouselItems> items = [
     CarouselItems(
         icon: ImageAssets.figmaImage,

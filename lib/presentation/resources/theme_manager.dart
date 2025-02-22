@@ -43,6 +43,10 @@ ThemeData getApplicationTheme() {
               backgroundColor: ColorManager.blue,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSize.s12)))),
+      bottomSheetTheme: BottomSheetThemeData(
+        surfaceTintColor: ColorManager.matteBlack,
+        backgroundColor: ColorManager.matteBlack,
+      ),
 
       // Text theme
       textTheme: TextTheme(
@@ -73,16 +77,19 @@ ThemeData getApplicationTheme() {
         // error style
         errorStyle: getRegularStyle(color: ColorManager.error),
 
+        filled: true,
+        fillColor: ColorManager.white.withValues(alpha: 0.05),
+
         // enabled border
         enabledBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(color: ColorManager.grey, width: AppSize.s1_5),
+                BorderSide.none,
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
 
         // focused border
         focusedBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(color: ColorManager.black, width: AppSize.s1_5),
+                BorderSide(color: ColorManager.blue, width: AppSize.s1_5),
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
 
         // error border
@@ -93,7 +100,7 @@ ThemeData getApplicationTheme() {
         // focused error border
         focusedErrorBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(color: ColorManager.black, width: AppSize.s1_5),
+                BorderSide(color: ColorManager.error, width: AppSize.s1_5),
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
       ));
 }

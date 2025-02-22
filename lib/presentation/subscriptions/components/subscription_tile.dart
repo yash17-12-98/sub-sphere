@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sub_sphere/models/subscription/subscription.dart';
-import 'package:sub_sphere/presentation/resources/resources.dart';
 
-class AppSubscriptionTile extends StatelessWidget {
+import '../../resources/resources.dart';
+
+
+class SubscriptionTile extends StatelessWidget {
   final Color tileColor;
   final Subscription subscription;
 
-  const AppSubscriptionTile(
+  const SubscriptionTile(
       {super.key, required this.tileColor, required this.subscription});
 
   @override

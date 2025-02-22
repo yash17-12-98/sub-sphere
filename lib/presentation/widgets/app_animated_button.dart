@@ -23,10 +23,10 @@ class _AppAnimatedButtonState extends State<AppAnimatedButton> {
       child: GestureDetector(
         onTapDown: (_) {
           setState(() => isPressed = true);
-          widget.onPressed();
         },
         onTapUp: (_) {
           setState(() => isPressed = false);
+          widget.onPressed();
         },
         onTapCancel: () {
           setState(() => isPressed = false);

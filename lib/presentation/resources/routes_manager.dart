@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sub_sphere/presentation/welcome/get_started_view.dart';
-import '../subscriptions/my_subscription_view.dart';
+import '../subscriptions/subscription_view.dart';
 import 'resources.dart';
 
 class Routes {

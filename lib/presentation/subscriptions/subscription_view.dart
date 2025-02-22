@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sub_sphere/presentation/resources/resources.dart';
-import 'package:sub_sphere/presentation/subscriptions/components/add_subscription_card.dart';
-import 'package:sub_sphere/presentation/subscriptions/components/app_pill_shape_button.dart';
-import 'package:sub_sphere/presentation/subscriptions/components/app_subscription_tile.dart';
 import 'package:sub_sphere/presentation/subscriptions/provider/subscription_provider.dart';
+
+import '../resources/resources.dart';
+import 'components/components.dart';
 
 class SubscriptionsView extends StatefulWidget {
   const SubscriptionsView({super.key});
@@ -63,7 +62,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                               (index) {
                             return Row(
                               children: [
-                                AppPillShapeButton(
+                                PillShapeButton(
                                   selected:
                                       provider.categoriesSelectedIndex == index,
                                   title: provider.categories[index],
@@ -86,7 +85,9 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                         ),
                         child: const Icon(Icons.add, color: Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        showAddCategorySheet(context);
+                      },
                     ),
                   ],
                 );
@@ -106,7 +107,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                         }
                         final subscription = subscriptions[index - 1];
 
-                        return AppSubscriptionTile(
+                        return SubscriptionTile(
                             tileColor: provider.assignRandomColor(),
                             subscription: subscription);
                       },
@@ -123,6 +124,15 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
           ),
         ),
       ),
+    );
+  }
+
+  void showAddCategorySheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => AddCategoryModalBottomView(),
     );
   }
 

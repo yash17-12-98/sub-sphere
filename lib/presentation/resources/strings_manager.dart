@@ -10,15 +10,24 @@ class AppStrings {
   static const all = "All";
   static const mySabs = "My Sabs";
   static const allSabs = "All Sabs";
-  static const entertainment = "Entertainment";
+
+  static const save = "Save";
+
   static const addASubscription = "Add a subscription";
 
-  static const month = "month";
+  //modal bottom sheet
+  static const addCategory = "Add a category";
+  static const enterName = "Enter a name";
+  static const selectSubscriptions = "Select subscriptions";
 
   //Category
+  static const design = "design";
+  static const entertainment = "entertainment";
+
+  //Subscriptions
   static const figma = "Figma";
   static const hboMax = "HBO Max";
   static const spotify = "Spotify";
   static const playStationPlus = "PlayStation Plus";
-  static const youtube = "youTube";
+  static const youtube = "You Tube";
 }
