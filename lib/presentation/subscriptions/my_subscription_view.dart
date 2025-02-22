@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-class SubscriptionsView extends StatelessWidget {
+class SubscriptionsView extends StatefulWidget {
   const SubscriptionsView({super.key});
 
   @override
+  State<SubscriptionsView> createState() => _SubscriptionsViewState();
+}
+
+class _SubscriptionsViewState extends State<SubscriptionsView> {
+  @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return Container();
   }
 }
