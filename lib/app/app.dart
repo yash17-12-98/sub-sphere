@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sub_sphere/presentation/providers/providers.dart';
 import '../presentation/resources/resources.dart';
 
+/// The main application widget that sets up providers and configures the app's routing and theme.
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 

@@ -5,6 +5,7 @@ import 'package:sub_sphere/models/subscription/subscription.dart';
 
 final getItInstance = GetIt.instance;
 
+/// Initializes and registers the Hive box for Subscription using dependency injection.
 Future<void> initBoxDI() async {
   getItInstance.registerSingleton(
     Hive.box<Subscription>(subscriptionBox),

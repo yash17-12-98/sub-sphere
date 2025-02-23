@@ -1,28 +1,22 @@
-import '../base/base.dart';
+import '../base/base_provider.dart';
 
 class GetStartedProvider extends BaseProvider {
   bool viewButton = false;
   bool showText = false;
   bool showCarousel = false;
 
-  alterCarouselViewStateAfterSomeDelay() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      showCarousel = true;
-      notifyListeners();
-    });
-  }
+  /// Triggers animations sequentially with delays.
+  Future<void> triggerAnimations() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    showCarousel = true;
+    notifyListeners();
 
-  alterButtonViewStateAfterSomeDelay() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      viewButton = true;
-      notifyListeners();
-    });
-  }
+    await Future.delayed(const Duration(milliseconds: 500));
+    showText = true;
+    notifyListeners();
 
-  alterTexViewStateAfterSomeDelay() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      showText = true;
-      notifyListeners();
-    });
+    await Future.delayed(const Duration(milliseconds: 500));
+    viewButton = true;
+    notifyListeners();
   }
 }

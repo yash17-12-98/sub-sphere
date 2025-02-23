@@ -1,3 +1,5 @@
+/// This class defines standard margin, padding, size, and duration constants for
+/// consistent spacing and UI scaling.
 class AppMargin {
   static const double m8 = 8.0;
   static const double m12 = 12.0;

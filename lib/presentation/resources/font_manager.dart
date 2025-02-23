@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 
+/// This class holds the font family used throughout the application.
 class FontConstants {
-  static const String fontFamily = "Montserrat";
+  static const String fontFamily = "Montserrat"; // Default font family
 }
 
+/// This class defines different font weights used in the app.
+/// Helps maintain consistency in text styling.
 class FontWeightManager {
-  static const FontWeight light = FontWeight.w300;
-  static const FontWeight regular = FontWeight.w400;
-  static const FontWeight medium = FontWeight.w500;
-  static const FontWeight semiBold = FontWeight.w600;
-  static const FontWeight bold = FontWeight.w700;
+  static const FontWeight light = FontWeight.w300; // Light weight
+  static const FontWeight regular = FontWeight.w400; // Regular weight
+  static const FontWeight medium = FontWeight.w500; // Medium weight
+  static const FontWeight semiBold = FontWeight.w600; // Semi-bold weight
+  static const FontWeight bold = FontWeight.w700; // Bold weight
 }
 
+/// This class contains predefined font sizes for uniform text styling.
+/// Helps avoid hardcoding font sizes throughout the app.
 class FontSize {
   static const double s12 = 12.0;
   static const double s13 = 13.0;

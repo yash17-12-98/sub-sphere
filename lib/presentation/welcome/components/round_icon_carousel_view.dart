@@ -33,15 +33,16 @@ class _RoundIconCarouselViewState extends State<RoundIconCarouselView> {
     super.initState();
     pageController = PageController(
       viewportFraction: 0.2,
-      initialPage: items.length * (infiniteScale ~/ 2),
+      initialPage: items.length * (infiniteScale ~/ 2), // Start from the middle to allow infinite looping.
     );
     startAutoPlay();
   }
 
+  /// Starts auto-playing the carousel.
   void startAutoPlay() {
     autoPlayTimer?.cancel();
     autoPlayTimer = Timer.periodic(autoPlayInterval, (timer) {
-      if (pageController.hasClients) {
+      if (pageController.hasClients && pageController.page != null) {
         pageController.animateToPage(
           pageController.page!.toInt() + 1,
           duration: autoPlayAnimationDuration,
@@ -60,13 +61,13 @@ class _RoundIconCarouselViewState extends State<RoundIconCarouselView> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height;
+    final height = MediaQuery.of(context).size.height;
 
     return GestureDetector(
-      onTapDown: (_) => autoPlayTimer?.cancel(),
-      onTapUp: (_) => startAutoPlay(),
+      onTapDown: (_) => autoPlayTimer?.cancel(), // Pause auto-play on tap down.
+      onTapUp: (_) => startAutoPlay(), // Resume auto-play on tap release.
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSize.s20),
+        padding: const EdgeInsets.symmetric(horizontal: AppSize.s20),
         child: SizedBox(
           height: height * 0.2,
           child: PageView.builder(
@@ -76,35 +77,17 @@ class _RoundIconCarouselViewState extends State<RoundIconCarouselView> {
                 selectedIndex = index % items.length;
               });
             },
-            itemCount: items.length * infiniteScale,
+            itemCount: items.length * infiniteScale, // Infinite effect by multiplying items.
             itemBuilder: (context, index) {
               final itemIndex = index % items.length;
               return AnimatedScale(
-                scale: selectedIndex == itemIndex ? 1.3 : 1.0,
+                scale: selectedIndex == itemIndex ? 1.3 : 1.0, // Scale animation for selected item.
                 duration: const Duration(milliseconds: 200),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    boxShadow: selectedIndex == itemIndex
-                        ? [
-                            BoxShadow(
-                              color:
-                                  items[itemIndex].color.withValues(alpha: 0.5),
-                              spreadRadius: 5,
-                              blurRadius: 15,
-                              offset: const Offset(0, 1),
-                            ),
-                            BoxShadow(
-                              color:
-                                  items[itemIndex].color.withValues(alpha: 0.3),
-                              spreadRadius: 15,
-                              blurRadius: 20,
-                              offset: const Offset(1, 1),
-                            ),
-                          ]
-                        : [],
+                    boxShadow: _buildShadows(itemIndex),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(9),
@@ -120,6 +103,27 @@ class _RoundIconCarouselViewState extends State<RoundIconCarouselView> {
         ),
       ),
     );
+  }
+
+  /// Builds a glowing shadow effect for the selected item.
+  List<BoxShadow> _buildShadows(int itemIndex) {
+    if (selectedIndex == itemIndex) {
+      return [
+        BoxShadow(
+          color: items[itemIndex].color.withValues(alpha: 0.5),
+          spreadRadius: 5,
+          blurRadius: 15,
+          offset: const Offset(0, 1),
+        ),
+        BoxShadow(
+          color: items[itemIndex].color.withValues(alpha: 0.3),
+          spreadRadius: 15,
+          blurRadius: 20,
+          offset: const Offset(1, 1),
+        ),
+      ];
+    }
+    return [];
   }
 }
 

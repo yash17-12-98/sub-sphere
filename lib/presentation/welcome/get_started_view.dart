@@ -17,23 +17,20 @@ class _GetStartedViewState extends State<GetStartedView> {
 
   @override
   void initState() {
+    // Initialize provider instance for managing UI state.
     provider = context.read<GetStartedProvider>();
+
+    // Trigger animations after the first frame is rendered.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initAnimation();
+      provider.triggerAnimations();
     });
     super.initState();
-  }
-
-  initAnimation() async {
-    await provider.alterCarouselViewStateAfterSomeDelay();
-    await provider.alterTexViewStateAfterSomeDelay();
-    provider.alterButtonViewStateAfterSomeDelay();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black, // Set background color to black.
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s15),
@@ -46,33 +43,41 @@ class _GetStartedViewState extends State<GetStartedView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Consumer to listen for changes in provider and trigger carousel animation.
                     Consumer<GetStartedProvider>(
                       builder: (BuildContext context, provider, Widget? child) {
                         return AnimatedOpacity(
                           duration: const Duration(milliseconds: 1000),
                           opacity: provider.showCarousel ? 1.0 : 0.0,
+                          // Fade-in effect.
                           curve: Curves.easeIn,
                           child: AnimatedScale(
                             duration: const Duration(milliseconds: 1000),
                             scale: provider.showCarousel ? 1.0 : 0.8,
+                            // Scaling effect.
                             curve: Curves.easeOut,
-                            child: RoundIconCarouselView(),
+                            child:
+                                RoundIconCarouselView(), // Custom widget for displaying carousel.
                           ),
                         );
                       },
                     ),
+
+                    // Consumer to listen for changes and display animated text.
                     Consumer<GetStartedProvider>(
                       builder: (BuildContext context, provider, Widget? child) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            SizedBox(height: 20),
+                            SizedBox(height: AppSize.s40),
                             AnimatedOpacity(
                               duration: const Duration(milliseconds: 800),
                               opacity: provider.showText ? 1.0 : 0.0,
+                              // Fade-in effect.
                               curve: Curves.easeIn,
                               child: Text(
                                 AppStrings.manageAllYourSubscriptions,
+                                // Main heading text.
                                 textAlign: TextAlign.center,
                                 style: getBoldStyle(
                                     color: ColorManager.white,
@@ -83,9 +88,11 @@ class _GetStartedViewState extends State<GetStartedView> {
                             AnimatedOpacity(
                               duration: const Duration(milliseconds: 800),
                               opacity: provider.showText ? 1.0 : 0.0,
+                              // Fade-in effect.
                               curve: Curves.easeIn,
                               child: Text(
                                 AppStrings.keepRegularExpensesOnHand,
+                                // Supporting text.
                                 textAlign: TextAlign.center,
                                 style: getRegularStyle(
                                     color: Colors.grey[400]!,
@@ -99,23 +106,29 @@ class _GetStartedViewState extends State<GetStartedView> {
                   ],
                 ),
               ),
+
+              // Consumer to listen for button animation state changes.
               Consumer<GetStartedProvider>(
                 builder: (BuildContext context, provider, Widget? child) {
                   return AnimatedSlide(
                     duration: const Duration(milliseconds: 800),
                     curve: Curves.easeOut,
-                    offset:
-                        provider.viewButton ? Offset.zero : const Offset(0, 2),
+                    offset: provider.viewButton
+                        ? Offset.zero
+                        : const Offset(0, 5), // Slide animation.
                     child: AppAnimatedButton(
-                      text: AppStrings.getStarted,
+                      text: AppStrings.getStarted, // Button label.
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.mySubRoute);
+                        Navigator.pushNamed(context,
+                            Routes.mySubRoute); // Navigate to next screen.
                       },
                     ),
                   );
                 },
               ),
-              SizedBox(height: kBottomNavigationBarHeight),
+
+              SizedBox(height: kBottomNavigationBarHeight - AppSize.s20),
+              // Adjust bottom spacing.
             ],
           ),
         ),

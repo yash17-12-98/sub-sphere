@@ -1,6 +1,8 @@
 const empty = "";
 const zero = 0;
 
+/// Extensions to handle null values gracefully for various data types.
+
 // extension on String
 extension NonNullString on String? {
   String orEmpty() {

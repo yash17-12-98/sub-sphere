@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'subscription.g.dart';
 
+/// A Model class for storing subscription details using Hive local database.
 @HiveType(typeId: 0)
 class Subscription extends HiveObject {
   @HiveField(0)
