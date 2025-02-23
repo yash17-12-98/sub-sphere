@@ -26,8 +26,10 @@ class _AppAnimatedButtonState extends State<AppAnimatedButton> {
           setState(() => isPressed = true);
         },
         onTapUp: (_) {
-          setState(() => isPressed = false);
-          widget.onPressed();
+          Future.delayed(Duration(milliseconds: 200), () {
+            setState(() => isPressed = false);
+            widget.onPressed();
+          });
         },
         onTapCancel: () {
           setState(() => isPressed = false);
@@ -35,7 +37,7 @@ class _AppAnimatedButtonState extends State<AppAnimatedButton> {
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
           transformAlignment: Alignment.center,
-          transform: Matrix4.identity()..scale(isPressed ? 0.8 : 1.0),
+          transform: Matrix4.identity()..scale(isPressed ? 0.9 : 1.0),
           child: Container(
             decoration: BoxDecoration(
               color: widget.color ?? Colors.blue,

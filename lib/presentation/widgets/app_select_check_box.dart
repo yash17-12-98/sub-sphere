@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SelectCheckBox extends StatelessWidget {
+class AppSelectCheckBox extends StatelessWidget {
   final bool value;
   final void Function(bool?)? onChanged;
 
-  const SelectCheckBox({super.key, this.value = false, this.onChanged});
+  const AppSelectCheckBox({super.key, this.value = false, this.onChanged});
 
   @override
   Widget build(BuildContext context) {

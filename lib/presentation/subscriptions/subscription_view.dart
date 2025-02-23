@@ -70,7 +70,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                                   onPressed: () =>
                                       provider.categorySelected = index,
                                 ),
-                                const SizedBox(width: 12),
+                                const SizedBox(width: AppSize.s8),
                               ],
                             );
                           }),
@@ -98,7 +98,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
 
                     return ListView.separated(
                       shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      padding: EdgeInsets.symmetric(vertical: AppSize.s5),
                       itemCount: subscriptions.length + 1,
                       itemBuilder: (context, index) {
                         if (index == 0) {

@@ -29,11 +29,13 @@ class _PillShapeButtonState extends State<PillShapeButton> {
           setState(() {
             isPressed = true;
           });
-          widget.onPressed();
         },
         onTapUp: (_) {
-          setState(() {
-            isPressed = false;
+          Future.delayed(Duration(milliseconds: 200), () {
+            setState(() {
+              isPressed = false;
+            });
+            widget.onPressed();
           });
         },
         onTapCancel: () {
@@ -46,10 +48,11 @@ class _PillShapeButtonState extends State<PillShapeButton> {
           transformAlignment: Alignment.center,
           transform: Matrix4.identity()..scale(isPressed ? 0.8 : 1.0),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
             decoration: BoxDecoration(
-              color:
-                  widget.selected.orFalse() ? Colors.blue : ColorManager.white.withValues(alpha: 0.2),
+              color: widget.selected.orFalse()
+                  ? Colors.blue
+                  : ColorManager.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(

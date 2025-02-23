@@ -81,7 +81,7 @@ class _RoundIconCarouselViewState extends State<RoundIconCarouselView> {
               final itemIndex = index % items.length;
               return AnimatedScale(
                 scale: selectedIndex == itemIndex ? 1.3 : 1.0,
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 200),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 0),
                   decoration: BoxDecoration(
