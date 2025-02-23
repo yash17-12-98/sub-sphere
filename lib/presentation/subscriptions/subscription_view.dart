@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sub_sphere/presentation/subscriptions/provider/select_subscription_category_provider.dart';
 import 'package:sub_sphere/presentation/subscriptions/provider/subscription_provider.dart';
@@ -67,8 +68,9 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                                   selected:
                                       provider.categoriesSelectedIndex == index,
                                   title: provider.categories[index],
-                                  onPressed: () =>
-                                      provider.categorySelected = index,
+                                  onPressed: () {
+                                    provider.categorySelected = index;
+                                  },
                                 ),
                                 const SizedBox(width: AppSize.s8),
                               ],
@@ -96,25 +98,37 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                   builder: (context, provider, child) {
                     final subscriptions = provider.filterListCategoryWise();
 
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(vertical: AppSize.s5),
-                      itemCount: subscriptions.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return AddSubscriptionCard();
-                        }
-                        final subscription = subscriptions[index - 1];
+                    return AnimationLimiter(
+                      key: ValueKey(provider.categoriesSelectedIndex),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(vertical: AppSize.s5),
+                        itemCount: subscriptions.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return AddSubscriptionCard();
+                          }
+                          final subscription = subscriptions[index - 1];
 
-                        return SubscriptionTile(
-                            tileColor: provider.assignRandomColor(),
-                            subscription: subscription);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: AppSize.s5,
-                        );
-                      },
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 675),
+                            child: SlideAnimation(
+                              horizontalOffset: 100.0,
+                              child: FadeInAnimation(
+                                child: SubscriptionTile(
+                                    tileColor: provider.assignRandomColor(),
+                                    subscription: subscription),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: AppSize.s5,
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

@@ -58,7 +58,7 @@ class _PillShapeButtonState extends State<PillShapeButton> {
             child: Text(
               widget.title.orEmpty(),
               style: getMediumStyle(
-                  color: ColorManager.white, fontSize: FontSize.s13),
+                  color: ColorManager.white, fontSize: FontSize.s14),
             ),
           ),
         ),
